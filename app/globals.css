@@ -3,25 +3,148 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #efe9dd;
+  --bg-2: #e6ddca;
+  --surface: #f7f3ea;
+  --surface-2: #fcf9f2;
+  --ink: #2b2721;
+  --muted: #6f6656;
+  --faint: #9a9080;
+  --border: #d9cdb5;
+  --border-strong: #c3b697;
+  --accent: #4a6b4f;
+  --accent-2: #628a5a;
+  --accent-ink: #f7f3ea;
+  --male: #506d7a;
+  --female: #9a5f57;
+  --line: #a89a76;
+  --danger: #a5493c;
+  --shadow: 0 1px 2px rgba(43, 39, 33, 0.06), 0 8px 24px rgba(43, 39, 33, 0.08);
+}
+
+[data-theme='dark'] {
+  --bg: #1b1915;
+  --bg-2: #14120d;
+  --surface: #24211a;
+  --surface-2: #2d2921;
+  --ink: #ece4d3;
+  --muted: #a89e88;
+  --faint: #776d59;
+  --border: #383227;
+  --border-strong: #4b4433;
+  --accent: #9cc08a;
+  --accent-2: #b3d1a0;
+  --accent-ink: #14120d;
+  --male: #7fa5b5;
+  --female: #c98d84;
+  --line: #7c7359;
+  --danger: #d98a7d;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme='light']) {
+    --bg: #1b1915;
+    --bg-2: #14120d;
+    --surface: #24211a;
+    --surface-2: #2d2921;
+    --ink: #ece4d3;
+    --muted: #a89e88;
+    --faint: #776d59;
+    --border: #383227;
+    --border-strong: #4b4433;
+    --accent: #9cc08a;
+    --accent-2: #b3d1a0;
+    --accent-ink: #14120d;
+    --male: #7fa5b5;
+    --female: #c98d84;
+    --line: #7c7359;
+    --danger: #d98a7d;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
   }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.font-serif {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Tree connector lines (react-family-tree renders <i> with inline #999) */
+.tree-canvas i {
+  background: var(--line) !important;
+}
+
+/* Subtle paper grain on the tree backdrop */
+.paper-grain {
+  background-image: radial-gradient(var(--border) 0.6px, transparent 0.6px);
+  background-size: 22px 22px;
+  background-position: -11px -11px;
+}
+
+/* Scrollbars */
+.scroll-thin::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 6px;
+  border: 2px solid var(--bg);
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+
+.field {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--ink);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.field:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
 }
