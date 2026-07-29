@@ -52,6 +52,8 @@ export interface FamilyData {
 
 export type RelativeKind = 'father' | 'mother' | 'spouse' | 'child' | 'sibling';
 
+export type Design = 'ramos' | 'raizes' | 'mural';
+
 export interface NewPersonInput {
   first_name?: string;
   last_name?: string;

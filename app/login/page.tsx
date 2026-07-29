@@ -6,12 +6,7 @@ import { login } from '../actions';
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="w-full rounded-lg px-4 py-2.5 text-sm font-semibold transition-opacity disabled:opacity-60"
-      style={{ background: 'var(--accent)', color: 'var(--accent-ink)' }}
-    >
+    <button type="submit" disabled={pending} className="btn btn-primary w-full py-2.5">
       {pending ? 'A entrar…' : 'Entrar'}
     </button>
   );
@@ -20,32 +15,25 @@ function SubmitButton() {
 export default function LoginPage() {
   const [state, formAction] = useFormState(login, {});
   return (
-    <main
-      className="paper-grain flex min-h-screen items-center justify-center px-6"
-      style={{ background: 'var(--bg)' }}
-    >
-      <div
-        className="w-full max-w-sm rounded-2xl p-8"
-        style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          boxShadow: 'var(--shadow)',
-        }}
-      >
-        <div className="mb-6 text-center">
-          <div
-            className="font-serif text-3xl font-semibold"
-            style={{ color: 'var(--ink)' }}
-          >
-            Raízes
+    <main className="paper-plate flex min-h-screen items-center justify-center px-6">
+      <div className="panel anim-fade-up w-full max-w-sm p-9">
+        <div className="mb-7 text-center">
+          <div className="mb-2 text-xl" style={{ color: 'var(--accent)' }} aria-hidden>
+            ❦
           </div>
-          <p className="mt-1 text-sm" style={{ color: 'var(--muted)' }}>
-            O arquivo da família
+          <h1 className="font-serif text-[32px] font-semibold leading-none" style={{ color: 'var(--ink)' }}>
+            Raízes
+          </h1>
+          <p
+            className="mt-2 text-[10px] uppercase tracking-[0.16em]"
+            style={{ color: 'var(--faint)' }}
+          >
+            arquivo da família
           </p>
         </div>
         <form action={formAction} className="space-y-4">
           <div>
-            <label className="label" htmlFor="password">
+            <label className="label mb-1" htmlFor="password">
               Palavra-passe
             </label>
             <input

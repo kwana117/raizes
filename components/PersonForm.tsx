@@ -52,95 +52,173 @@ export default function PersonForm({ initial, submitLabel, onSubmit, onCancel, p
         e.preventDefault();
         onSubmit(v);
       }}
-      className="space-y-3"
+      className="space-y-4"
     >
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <label className="label">Nome próprio</label>
-          <input className="field" value={v.first_name} onChange={(e) => set('first_name', e.target.value)} autoFocus />
-        </div>
-        <div>
-          <label className="label">Apelido</label>
-          <input className="field" value={v.last_name} onChange={(e) => set('last_name', e.target.value)} />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <label className="label">Apelido de solteira</label>
-          <input className="field" value={v.maiden_name} onChange={(e) => set('maiden_name', e.target.value)} />
-        </div>
-        <div>
-          <label className="label">Género</label>
-          <select className="field" value={v.gender} onChange={(e) => set('gender', e.target.value as Gender)}>
-            <option value="male">Masculino</option>
-            <option value="female">Feminino</option>
-            <option value="unknown">Não indicado</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <label className="label">Nascimento</label>
-          <input className="field" placeholder="ex.: 1948 ou 12/03/1948" value={v.birth_date} onChange={(e) => set('birth_date', e.target.value)} />
-        </div>
-        <div>
-          <label className="label">Local de nascimento</label>
-          <input className="field" value={v.birth_place} onChange={(e) => set('birth_place', e.target.value)} />
-        </div>
-      </div>
-
-      <label className="flex items-center gap-2 text-sm" style={{ color: 'var(--ink)' }}>
-        <input
-          type="checkbox"
-          checked={v.living === 1}
-          onChange={(e) => set('living', e.target.checked ? 1 : 0)}
-        />
-        Pessoa viva
-      </label>
-
-      {v.living === 0 ? (
+      <div className="space-y-2.5">
+        <div className="rule-label">Identificação</div>
         <div className="grid grid-cols-2 gap-2">
-          <div>
-            <label className="label">Óbito</label>
-            <input className="field" placeholder="ex.: 2019" value={v.death_date} onChange={(e) => set('death_date', e.target.value)} />
-          </div>
-          <div>
-            <label className="label">Local de óbito</label>
-            <input className="field" value={v.death_place} onChange={(e) => set('death_place', e.target.value)} />
-          </div>
+          <Field label="Nome próprio">
+            <input
+              className="field"
+              value={v.first_name}
+              onChange={(e) => set('first_name', e.target.value)}
+              placeholder="Maria"
+              autoFocus
+            />
+          </Field>
+          <Field label="Apelido">
+            <input
+              className="field"
+              value={v.last_name}
+              onChange={(e) => set('last_name', e.target.value)}
+              placeholder="Dias"
+            />
+          </Field>
         </div>
-      ) : null}
 
-      <div>
-        <label className="label">Profissão / ocupação</label>
-        <input className="field" value={v.occupation} onChange={(e) => set('occupation', e.target.value)} />
+        <Field label="Apelido de solteira" hint="opcional">
+          <input
+            className="field"
+            value={v.maiden_name}
+            onChange={(e) => set('maiden_name', e.target.value)}
+          />
+        </Field>
+
+        <Field label="Género">
+          <GenderPicker value={v.gender} onChange={(g) => set('gender', g)} />
+        </Field>
       </div>
 
-      <div>
-        <label className="label">Notas biográficas</label>
-        <textarea className="field" rows={4} value={v.bio} onChange={(e) => set('bio', e.target.value)} />
+      <div className="space-y-2.5">
+        <div className="rule-label">Vida</div>
+        <div className="grid grid-cols-2 gap-2">
+          <Field label="Nascimento">
+            <input
+              className="field font-mono"
+              placeholder="1948"
+              value={v.birth_date}
+              onChange={(e) => set('birth_date', e.target.value)}
+            />
+          </Field>
+          <Field label="Naturalidade">
+            <input
+              className="field"
+              placeholder="Funchal"
+              value={v.birth_place}
+              onChange={(e) => set('birth_place', e.target.value)}
+            />
+          </Field>
+        </div>
+
+        <Field label="Estado">
+          <div className="seg">
+            <button type="button" aria-pressed={v.living === 1} onClick={() => set('living', 1)}>
+              Vive
+            </button>
+            <button type="button" aria-pressed={v.living === 0} onClick={() => set('living', 0)}>
+              Já falecida
+            </button>
+          </div>
+        </Field>
+
+        {v.living === 0 ? (
+          <div className="anim-fade-up grid grid-cols-2 gap-2">
+            <Field label="Óbito">
+              <input
+                className="field font-mono"
+                placeholder="2019"
+                value={v.death_date}
+                onChange={(e) => set('death_date', e.target.value)}
+              />
+            </Field>
+            <Field label="Local de óbito">
+              <input
+                className="field"
+                value={v.death_place}
+                onChange={(e) => set('death_place', e.target.value)}
+              />
+            </Field>
+          </div>
+        ) : null}
+
+        <Field label="Profissão / ocupação">
+          <input
+            className="field"
+            placeholder="Marceneiro"
+            value={v.occupation}
+            onChange={(e) => set('occupation', e.target.value)}
+          />
+        </Field>
       </div>
 
-      <div className="flex justify-end gap-2 pt-1">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="rounded-lg px-3 py-2 text-sm"
-          style={{ color: 'var(--muted)', border: '1px solid var(--border)' }}
-        >
+      <div className="space-y-2.5">
+        <div className="rule-label">Notas</div>
+        <textarea
+          className="field"
+          rows={4}
+          placeholder="Histórias, memórias, o que se sabe desta pessoa…"
+          value={v.bio}
+          onChange={(e) => set('bio', e.target.value)}
+        />
+      </div>
+
+      <div
+        className="flex justify-end gap-2 pt-1"
+        style={{ borderTop: '1px solid var(--rule)', paddingTop: 12 }}
+      >
+        <button type="button" onClick={onCancel} className="btn btn-quiet">
           Cancelar
         </button>
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-lg px-3 py-2 text-sm font-semibold transition-opacity disabled:opacity-60"
-          style={{ background: 'var(--accent)', color: 'var(--accent-ink)' }}
-        >
+        <button type="submit" disabled={pending} className="btn btn-primary">
           {pending ? 'A guardar…' : submitLabel}
         </button>
       </div>
     </form>
+  );
+}
+
+function Field({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="label mb-1 flex items-baseline gap-1.5">
+        {label}
+        {hint ? (
+          <span style={{ color: 'var(--faint)', fontWeight: 400, textTransform: 'none' }}>
+            {hint}
+          </span>
+        ) : null}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+export function GenderPicker({
+  value,
+  onChange,
+}: {
+  value: Gender;
+  onChange: (g: Gender) => void;
+}) {
+  return (
+    <div className="seg">
+      <button type="button" aria-pressed={value === 'male'} onClick={() => onChange('male')}>
+        Masculino
+      </button>
+      <button type="button" aria-pressed={value === 'female'} onClick={() => onChange('female')}>
+        Feminino
+      </button>
+      <button type="button" aria-pressed={value === 'unknown'} onClick={() => onChange('unknown')}>
+        —
+      </button>
+    </div>
   );
 }

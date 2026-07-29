@@ -2,66 +2,218 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------
+   Raízes — dois desenhos, escolhíveis em app via [data-design]:
+
+   · "ramos" (defeito) — luz de jardim: marfim quente, ramos lenhosos
+     com espessura, cartões-folha arredondados.
+   · "tinta" — herbário gravado: papel claro, traço fino de tinta
+     sépia com nós nas junções, cartões de placa fina.
+
+   Os conectores da árvore são SVG desenhado por nós; herdam tudo
+   destes tokens (--con-*), por isso cada design muda também a
+   anatomia dos ramos sem tocar em JS.
+------------------------------------------------------------------- */
+
 :root {
-  --bg: #efe9dd;
-  --bg-2: #e6ddca;
-  --surface: #f7f3ea;
-  --surface-2: #fcf9f2;
-  --ink: #2b2721;
-  --muted: #6f6656;
-  --faint: #9a9080;
-  --border: #d9cdb5;
-  --border-strong: #c3b697;
-  --accent: #4a6b4f;
-  --accent-2: #628a5a;
-  --accent-ink: #f7f3ea;
-  --male: #506d7a;
-  --female: #9a5f57;
-  --line: #a89a76;
-  --danger: #a5493c;
-  --shadow: 0 1px 2px rgba(43, 39, 33, 0.06), 0 8px 24px rgba(43, 39, 33, 0.08);
+  /* ---- ramos (light, defeito) ---- */
+  --paper: #f6f0e1;
+  --paper-2: #ebe2cc;
+  --card: #fffef8;
+  --card-2: #f5efe0;
+  --ink: #2e2a1f;
+  --ink-2: #494234;
+  --muted: #6e6752;
+  --faint: #9c927a;
+  --rule: #e0d6bc;
+  --rule-strong: #c8bb9a;
+  --accent: #4d7a44;
+  --accent-2: #629457;
+  --accent-soft: #e5efdc;
+  --accent-ink: #fdfcf5;
+  --male: #527086;
+  --female: #a05b4c;
+  --neutral: #8f866f;
+  --danger: #a3452f;
+
+  /* branch anatomy */
+  --line: #8d7c50;
+  --con-w: 2.4;
+  --con-under-w: 8;
+  --con-under-op: 0.13;
+  --con-dot-r: 0;
+
+  /* card anatomy */
+  --card-r: 18px;
+  --band-h: 0px;
+
+  /* plate */
+  --plate-img: radial-gradient(
+      ellipse 85% 75% at 50% 42%,
+      transparent 40%,
+      color-mix(in srgb, var(--paper-2) 80%, transparent) 100%
+    ),
+    linear-gradient(180deg, #f8f3e7 0%, #f4eddb 55%, #efe6cf 100%);
+  --plate-size: 100% 100%, 100% 100%;
+  --plate-pos: 0 0, 0 0;
+
+  --hi: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  --shadow-sm: 0 1px 1px rgba(46, 42, 31, 0.05), 0 2px 5px rgba(46, 42, 31, 0.06);
+  --shadow: 0 1px 1px rgba(46, 42, 31, 0.05), 0 5px 16px rgba(46, 42, 31, 0.1);
+  --shadow-lg: 0 2px 4px rgba(46, 42, 31, 0.07), 0 18px 44px rgba(46, 42, 31, 0.17);
+
+  --r-sm: 4px;
+  --r: 8px;
+  --r-lg: 12px;
+  --r-xl: 18px;
 }
 
+/* ---- raízes (light) — a árvore à superfície, a família cresce como raízes ---- */
+[data-design='raizes'] {
+  --paper: #eee5d1;
+  --paper-2: #dfd2b6;
+  --card: #fffcf1;
+  --card-2: #f3ecda;
+  --ink: #322a1e;
+  --ink-2: #4b4130;
+  --muted: #6e6450;
+  --faint: #998e76;
+  --rule: #dccfb2;
+  --rule-strong: #c3b190;
+  --accent: #5d7f43;
+  --accent-2: #71954f;
+  --accent-soft: #e6ecda;
+  --accent-ink: #f9faf2;
+  --male: #4f7086;
+  --female: #a05b4c;
+  --neutral: #8d8470;
+  --danger: #a3452f;
+
+  /* casca, copa, relva e céu — usados pelo SVG */
+  --line: #7a5c3a;
+  --bark: #7d5b3c;
+  --leaf-1: #6c8f4e;
+  --leaf-2: #7da05c;
+  --leaf-3: #597d40;
+  --ground: #8fae6f;
+  --sky: #eaf3e3;
+  --con-w: 2;
+  --con-under-w: 0;
+  --con-under-op: 0;
+  --con-dot-r: 0;
+
+  --card-r: 16px;
+  --band-h: 0px;
+
+  /* terra: aprofunda com a descida, com calhaus dispersos */
+  --plate-img: radial-gradient(
+      ellipse 90% 80% at 50% 40%,
+      transparent 40%,
+      color-mix(in srgb, var(--paper-2) 80%, transparent) 100%
+    ),
+    radial-gradient(#dcc9a6 1.2px, transparent 1.5px),
+    radial-gradient(#d2bd97 1px, transparent 1.3px),
+    linear-gradient(180deg, #f1e9d8 0%, #ebe1ca 50%, #e3d5b8 100%);
+  --plate-size: 100% 100%, 23px 23px, 31px 31px, 100% 100%;
+  --plate-pos: 0 0, -5px -7px, 9px 5px, 0 0;
+
+  --hi: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  --shadow-sm: 0 1px 1px rgba(50, 42, 30, 0.06), 0 2px 6px rgba(50, 42, 30, 0.07);
+  --shadow: 0 1px 2px rgba(50, 42, 30, 0.06), 0 6px 16px rgba(50, 42, 30, 0.11);
+  --shadow-lg: 0 2px 4px rgba(50, 42, 30, 0.08), 0 18px 44px rgba(50, 42, 30, 0.17);
+}
+
+/* ---- mural (light) — quadro de cortiça: fotos presas com fio vermelho ---- */
+[data-design='mural'] {
+  --paper: #e9dfc9;
+  --paper-2: #dbcfb1;
+  --card: #fffdf4;
+  --card-2: #f4eeda;
+  --ink: #33291d;
+  --ink-2: #4c4130;
+  --muted: #6f6350;
+  --faint: #998c74;
+  --rule: #d8cbae;
+  --rule-strong: #bfae8d;
+  --accent: #a8422f;
+  --accent-2: #bd5541;
+  --accent-soft: #f1e1d8;
+  --accent-ink: #fdf8ef;
+  --male: #55707f;
+  --female: #a2604f;
+  --neutral: #8a7f6a;
+  --danger: #8f3423;
+
+  /* fio vermelho */
+  --line: #b23a2c;
+  --con-w: 1.7;
+  --con-under-w: 0;
+  --con-under-op: 0;
+  --con-dot-r: 3.4;
+
+  --card-r: 3px;
+  --band-h: 0px;
+
+  /* cortiça: salpicos em dois tons + vinheta */
+  --plate-img: radial-gradient(
+      ellipse 85% 78% at 50% 44%,
+      transparent 38%,
+      color-mix(in srgb, var(--paper-2) 90%, transparent) 100%
+    ),
+    radial-gradient(#d3c4a2 1.1px, transparent 1.3px),
+    radial-gradient(#c8b790 1px, transparent 1.2px);
+  --plate-size: 100% 100%, 19px 19px, 27px 27px;
+  --plate-pos: 0 0, -4px -6px, 7px 3px;
+
+  --hi: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-sm: 0 1px 2px rgba(51, 41, 29, 0.14), 0 3px 6px rgba(51, 41, 29, 0.1);
+  --shadow: 0 2px 3px rgba(51, 41, 29, 0.14), 0 7px 18px rgba(51, 41, 29, 0.14);
+  --shadow-lg: 0 3px 6px rgba(51, 41, 29, 0.16), 0 20px 48px rgba(51, 41, 29, 0.22);
+}
+
+/* ---- dark (aplica-se a ambos os designs) ---- */
 [data-theme='dark'] {
-  --bg: #1b1915;
-  --bg-2: #14120d;
-  --surface: #24211a;
-  --surface-2: #2d2921;
-  --ink: #ece4d3;
-  --muted: #a89e88;
-  --faint: #776d59;
-  --border: #383227;
-  --border-strong: #4b4433;
-  --accent: #9cc08a;
-  --accent-2: #b3d1a0;
-  --accent-ink: #14120d;
-  --male: #7fa5b5;
-  --female: #c98d84;
-  --line: #7c7359;
-  --danger: #d98a7d;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
-}
+  --paper: #171612;
+  --paper-2: #0f0e0b;
+  --card: #211f19;
+  --card-2: #2a2721;
+  --ink: #ece3d0;
+  --ink-2: #cdc3ae;
+  --muted: #a2977f;
+  --faint: #6f6653;
+  --rule: #363021;
+  --rule-strong: #4b4331;
+  --accent: #a3c78e;
+  --accent-2: #bcdaa6;
+  --accent-soft: #232c20;
+  --accent-ink: #14130f;
+  --male: #86aabb;
+  --female: #cd9189;
+  --neutral: #8b8270;
+  --danger: #dc8b7e;
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #1b1915;
-    --bg-2: #14120d;
-    --surface: #24211a;
-    --surface-2: #2d2921;
-    --ink: #ece4d3;
-    --muted: #a89e88;
-    --faint: #776d59;
-    --border: #383227;
-    --border-strong: #4b4433;
-    --accent: #9cc08a;
-    --accent-2: #b3d1a0;
-    --accent-ink: #14120d;
-    --male: #7fa5b5;
-    --female: #c98d84;
-    --line: #7c7359;
-    --danger: #d98a7d;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
-  }
+  --line: #6d6450;
+  --con-under-op: 0.2;
+  --bark: #8a6d4d;
+  --leaf-1: #55703f;
+  --leaf-2: #64824a;
+  --leaf-3: #475f35;
+  --ground: #39442d;
+  --sky: #1a2116;
+
+  --plate-img: radial-gradient(
+      ellipse 90% 80% at 50% 45%,
+      transparent 35%,
+      color-mix(in srgb, var(--paper-2) 75%, transparent) 100%
+    ),
+    radial-gradient(var(--rule) 0.55px, transparent 0.65px);
+  --plate-size: 100% 100%, 26px 26px;
+  --plate-pos: 0 0, -13px -13px;
+
+  --hi: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 4px 10px rgba(0, 0, 0, 0.45), 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -76,7 +228,7 @@ body {
 }
 
 body {
-  background: var(--bg);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -85,6 +237,12 @@ body {
 
 .font-serif {
   font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-optical-sizing: auto;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
 }
 
 ::selection {
@@ -92,31 +250,56 @@ body {
   color: var(--accent-ink);
 }
 
-/* Tree connector lines (react-family-tree renders <i> with inline #999) */
-.tree-canvas i {
-  background: var(--line) !important;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
-/* Subtle paper grain on the tree backdrop */
-.paper-grain {
-  background-image: radial-gradient(var(--border) 0.6px, transparent 0.6px);
-  background-size: 22px 22px;
-  background-position: -11px -11px;
+/* ---------------- surfaces ---------------- */
+
+.paper-plate {
+  background-color: var(--paper);
+  background-image: var(--plate-img);
+  background-size: var(--plate-size);
+  background-position: var(--plate-pos);
 }
 
-/* Scrollbars */
-.scroll-thin::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+.panel {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--hi), var(--shadow);
 }
-.scroll-thin::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: 6px;
-  border: 2px solid var(--bg);
+
+/* ---------------- typography helpers ---------------- */
+
+.label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
-.scroll-thin::-webkit-scrollbar-track {
-  background: transparent;
+
+.rule-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
+.rule-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* ---------------- controls ---------------- */
 
 input,
 textarea,
@@ -127,24 +310,342 @@ button {
 
 .field {
   width: 100%;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
+  background: var(--card-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  padding: 8px 11px;
   color: var(--ink);
   font-size: 14px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
 }
-.field:focus-visible {
+.field::placeholder {
+  color: var(--faint);
+}
+.field:hover {
+  border-color: var(--rule-strong);
+}
+.field:focus {
+  outline: none;
+  background: var(--card);
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
 }
-.label {
-  display: block;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--r);
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  border: 1px solid transparent;
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.btn:disabled:active {
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-2);
+}
+
+.btn-outline {
+  background: var(--card);
+  border-color: var(--rule);
+  box-shadow: var(--hi);
+}
+.btn-outline:hover:not(:disabled) {
+  border-color: var(--rule-strong);
+  background: var(--card-2);
+}
+
+.btn-quiet {
+  background: transparent;
   color: var(--muted);
-  margin-bottom: 4px;
+}
+.btn-quiet:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  color: var(--ink);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+}
+.btn-danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+}
+
+.btn-sm {
+  padding: 5px 9px;
+  font-size: 12px;
+}
+
+/* Segmented control — género, estado, e o seletor de design. */
+.seg {
+  display: flex;
+  padding: 2px;
+  gap: 2px;
+  background: var(--card-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+}
+.seg > button {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12.5px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.seg > button:hover {
+  color: var(--ink);
+}
+.seg > button[aria-pressed='true'] {
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------------- tree connectors (SVG próprio) ---------------- */
+
+.con-under {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: var(--con-under-w);
+  opacity: var(--con-under-op);
+  stroke-linecap: round;
+}
+.con {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: var(--con-w);
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+.con-dot {
+  fill: var(--line);
+  r: var(--con-dot-r);
+}
+
+/* ---------------- design-specific card anatomy ---------------- */
+
+/* Cards can tilt (mural) without perder o translate do hover. */
+.node-card {
+  rotate: var(--tilt, 0deg);
+}
+
+/* Raízes: os cartões assentam na terra com uma leve inclinação natural. */
+[data-design='raizes'] .tree-canvas > div:nth-child(3n) .node-card {
+  --tilt: -0.7deg;
+}
+[data-design='raizes'] .tree-canvas > div:nth-child(3n + 1) .node-card {
+  --tilt: 0.5deg;
+}
+[data-design='raizes'] .tree-canvas > div:nth-child(3n + 2) .node-card {
+  --tilt: -0.3deg;
+}
+
+/* Elementos naturais do design raízes (SVG) */
+.arv-bough {
+  fill: none;
+  stroke: var(--bark);
+  stroke-linecap: round;
+  opacity: 0.95;
+}
+.arv-rootlet {
+  fill: none;
+  stroke: var(--bark);
+  stroke-linecap: round;
+  opacity: 0.5;
+}
+.arv-trunk {
+  fill: var(--bark);
+}
+.arv-ground {
+  fill: var(--ground);
+}
+.arv-sky {
+  fill: var(--sky);
+}
+.arv-leaf-1 {
+  fill: var(--leaf-1);
+}
+.arv-leaf-2 {
+  fill: var(--leaf-2);
+}
+.arv-leaf-3 {
+  fill: var(--leaf-3);
+}
+
+/* Mural: cada carta é uma foto presa com pioné, ligeiramente torta. */
+[data-design='mural'] .node-wrap::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #e8705d, #a52a1c 68%);
+  box-shadow:
+    0 2px 3px rgba(51, 41, 29, 0.35),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.25);
+  z-index: 6;
+  pointer-events: none;
+}
+[data-design='mural'] .tree-canvas > div:nth-child(3n) .node-card {
+  --tilt: -1.3deg;
+}
+[data-design='mural'] .tree-canvas > div:nth-child(3n + 1) .node-card {
+  --tilt: 0.9deg;
+}
+[data-design='mural'] .tree-canvas > div:nth-child(3n + 2) .node-card {
+  --tilt: -0.4deg;
+}
+
+/* Quick-add affordances around a node on hover. */
+.quick-add {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--rule-strong);
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.75);
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease,
+    background 0.16s ease,
+    color 0.16s ease,
+    border-color 0.16s ease;
+  box-shadow: var(--shadow-sm);
+  z-index: 5;
+}
+.node-wrap:hover .quick-add,
+.quick-add:focus-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.quick-add:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  transform: scale(1.12);
+}
+
+/* ---------------- scrollbars ---------------- */
+
+.scroll-thin::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--rule-strong);
+  border-radius: 6px;
+  border: 3px solid var(--card);
+}
+.scroll-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--faint);
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------------- motion ---------------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.anim-fade-up {
+  animation: fade-up 0.32s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.anim-pop {
+  animation: pop-in 0.2s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.anim-slide {
+  animation: slide-in 0.26s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
