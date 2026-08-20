@@ -37,3 +37,6 @@ next-env.d.ts
 
 # Dados da família (SQLite + fotos)
 /data
+
+# ferramentas locais
+.claude/
